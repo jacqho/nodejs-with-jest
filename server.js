@@ -9,7 +9,7 @@ const app = express();
 app.use(express.raw({ limit: '1kb' , type: "application/xml" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use('/', homeownerRoutes);
+app.use('/api/homeowner', homeownerRoutes);
 database.connectDB(url);
 
 module.exports = app;

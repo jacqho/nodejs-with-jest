@@ -9,7 +9,7 @@ exports.create = async (req, res) => {
         const ret = await database.saveRecord({ name, age, phone, email, address, latitude, longitude, payment });
         res.status(201).json(ret);
     } catch(error){
-        res.status(404).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -21,10 +21,9 @@ exports.update = async (req, res) => {
         const { latitude, longitude } = await googleAPI.getGeoCoordinates(address);
         
         const ret = await database.updateRecord(id, { name, age, phone, email, address, latitude, longitude, payment });
-        if(!ret) throw new Error("Unable to update record");
         res.status(200).json({ message: "Update Record Success" });
     } catch(error){
-        res.status(404).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -34,7 +33,7 @@ exports.getBy = async (req, res) => {
         const ret = await database.getByParams({ name: name, phone: phone, email: email });
         res.status(200).json(ret);
     } catch(error){
-        res.status(404).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -44,7 +43,7 @@ exports.getById = async (req, res) => {
         const ret = await database.getById(id);
         res.status(200).json(ret);
     } catch(error){
-        res.status(404).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -53,7 +52,7 @@ exports.getAll = async (req, res) => {
         ret = await database.getAllRecords();
         res.status(200).json(ret);
     } catch(error){
-        res.status(404).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -68,10 +67,9 @@ exports.remove = async (req, res) => {
         else{
             ret = await database.removeRecords(ids);
         }
-        if(!ret) throw new Error("Unable to remove record(s)");
         res.status(200).json({ message: "Remove Record(s) Success" });
     } catch(error){
-        res.status(404).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 

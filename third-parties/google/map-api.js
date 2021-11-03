@@ -4,7 +4,6 @@ const mapping = config.third_parties.google;
 
 exports.getGeoCoordinates = async (address) => {
     const payload = await axios.get(`${mapping.api}?address=${address}&key=${mapping.apikey}`);
-    
     if(payload.data.status != 'OK'){
         throw new Error(`Unable to get geo coordinates. ${payload.data.error_message}`);
     }

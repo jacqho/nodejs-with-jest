@@ -101,7 +101,6 @@ describe('Homeowner Database Helper', () => {
     describe("Get Home Owner Record By ID", () => {
         it('should be able to get home owner record by id', async() => {
             const _record = _records[0];
-            database.convertToDBObject = jest.fn();
             jest.spyOn(Homeowner, 'findById').mockReturnValueOnce(_record);
             const record = await database.getById(_record._id);
             expect(JSON.parse(JSON.stringify(record))).toMatchObject(_record);
@@ -109,7 +108,6 @@ describe('Homeowner Database Helper', () => {
  
         it('should be unable to get home owner record by id', async() => {
             const _record = _records[0];
-            database.convertToDBObject = jest.fn();
             jest.spyOn(Homeowner, 'findById').mockImplementationOnce(() => Promise.reject(new Error("Failure")));
             await expect(database.getById(_record._id)).rejects.toEqual(new Error(`Unable to get record, id: ${_record._id}. Failure`));
         });
@@ -133,7 +131,6 @@ describe('Homeowner Database Helper', () => {
     describe("Remove Home Owner Record by Id", () => {
         it('should be able to remove home owner record by id', async() => {
             const _record = _records[0];
-            database.convertToDBObject = jest.fn();
             jest.spyOn(Homeowner, 'findByIdAndRemove').mockReturnValueOnce(_record);
             const ret = await database.removeRecord(_record._id);
             expect(ret).toBe(true);

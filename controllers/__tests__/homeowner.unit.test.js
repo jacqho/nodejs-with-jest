@@ -47,7 +47,7 @@ describe("Create Home Owner Record", () => {
         it("should prompt the message which unable to get geo coordinates", async () => {
             jest.spyOn(googleAPI, 'getGeoCoordinates').mockImplementation(() => Promise.reject(new Error('Unable to get geo coordinates as it has multiple returns.')));
             await homeownerController.create(req, res);
-            expect(res.status).toHaveBeenCalledWith(404);
+            expect(res.status).toHaveBeenCalledWith(500);
             expect(res.json).toHaveBeenCalledWith({"message": "Unable to get geo coordinates as it has multiple returns."});
         });
 
@@ -55,7 +55,7 @@ describe("Create Home Owner Record", () => {
             jest.spyOn(googleAPI, 'getGeoCoordinates').mockResolvedValueOnce({ latitude: 123, longitude: 123 });
             jest.spyOn(dbHelper, 'saveRecord').mockImplementation(() => Promise.reject(new Error('Unable to save record.')));
             await homeownerController.create(req, res);
-            expect(res.status).toHaveBeenCalledWith(404);
+            expect(res.status).toHaveBeenCalledWith(500);
             expect(res.json).toHaveBeenCalledWith({"message": "Unable to save record."});
         });
     });
@@ -90,7 +90,7 @@ describe("Update Home Owner Record", () => {
     it("should return failure message which unable to update into database", async () => {
         jest.spyOn(googleAPI, 'getGeoCoordinates').mockImplementation(() => Promise.reject(new Error('Unable to get geo coordinates as it has multiple returns.')));
         await homeownerController.update(req, res);
-        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({"message": "Unable to get geo coordinates as it has multiple returns."});
     });
 });
@@ -183,7 +183,7 @@ describe("Read Home Owner Record", () => {
         res = mockResponse();
         jest.spyOn(dbHelper, 'getAllRecords').mockImplementation(() => Promise.reject(new Error('Unable to get all records. ')));
         await homeownerController.getAll(req, res);
-        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({"message": "Unable to get all records. "});
     });
 
@@ -196,7 +196,7 @@ describe("Read Home Owner Record", () => {
         res = mockResponse();
         jest.spyOn(dbHelper, 'getById').mockImplementation(() => Promise.reject(new Error('Unable to get all records. ')));
         await homeownerController.getById(req, res);
-        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({"message": "Unable to get all records. "});
     });
 
@@ -209,7 +209,7 @@ describe("Read Home Owner Record", () => {
         res = mockResponse();
         jest.spyOn(dbHelper, 'getByParams').mockImplementation(() => Promise.reject(new Error('Unable to get all records. ')));
         await homeownerController.getBy(req, res);
-        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({"message": "Unable to get all records. "});
     });
 });
@@ -255,7 +255,7 @@ describe("Delete Home Owner Record", () => {
         res = mockResponse();
         jest.spyOn(dbHelper, 'removeRecords').mockImplementation(() => Promise.reject(new Error('Unable to remove record, id')));
         await homeownerController.remove(req, res);
-        expect(res.status).toHaveBeenCalledWith(404);
+        expect(res.status).toHaveBeenCalledWith(500);
         expect(res.json).toHaveBeenCalledWith({"message": "Unable to remove record, id"});
     });
 });

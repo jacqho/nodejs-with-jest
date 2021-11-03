@@ -41,7 +41,7 @@ exports.getAllRecords = async () => {
 
 exports.getById = async(id) => {
     try{
-        return await Homeowner.findById(this.convertToDBObject(id));
+        return await Homeowner.findById(mongoose.Types.ObjectId(id));
     }
     catch(error){
         throw new Error(`Unable to get record, id: ${id}. ${error.message}`);
@@ -60,7 +60,7 @@ exports.getByParams = async(params) => {
 
 exports.removeRecord = async(id) => {
     try{
-        await Homeowner.findByIdAndRemove(this.convertToDBObject(id))
+        await Homeowner.findByIdAndRemove(mongoose.Types.ObjectId(id))
         return true;
     }
     catch(error){
@@ -80,8 +80,4 @@ exports.removeRecords = async(ids) => {
     catch(error){
         throw new Error(`Unable to remove records, ids: ${ids}. ${error.message}`);
     }
-}
-
-exports.convertToDBObject = (id) => {
-    return mongoose.Types.ObjectId(id);
 }
